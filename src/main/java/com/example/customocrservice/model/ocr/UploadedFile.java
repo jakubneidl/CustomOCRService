@@ -1,20 +1,16 @@
 package com.example.customocrservice.model.ocr;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-import java.util.Set;
+import java.io.File;
 import java.util.UUID;
 
-@Data
-@Builder
+
+@Getter
+@AllArgsConstructor
 public class UploadedFile {
     private UUID id;
-    @JsonIgnore
-    private MultipartFile multipartFile;
+    private File file;
     private LanguageEnum lang;
-    private Integer numberOfPages;
-    private Set<Page> pages;
 }

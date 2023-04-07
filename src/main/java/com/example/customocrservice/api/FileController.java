@@ -1,30 +1,38 @@
 package com.example.customocrservice.api;
 
 import com.example.customocrservice.model.ocr.LanguageEnum;
-import com.example.customocrservice.model.ocr.UploadedFile;
-import com.example.customocrservice.service.OcrService;
+import com.example.customocrservice.model.response.file.UploadedFileResponseDto;
+import com.example.customocrservice.service.FileService;
 import lombok.RequiredArgsConstructor;
-import net.sourceforge.tess4j.TesseractException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("api/v1/files")
 public class FileController {
+    private final FileService fileService;
 
-    private final OcrService ocrService;
-
-    @PostMapping("/upload")
-    public UploadedFile doUcrOnFile(@RequestParam("file") MultipartFile file, @RequestParam("lang") LanguageEnum lang) {
-        try {
-            return ocrService.doOcr(file, lang);
-        } catch (TesseractException e) {
-            e.printStackTrace();
-        }
-        return null;
+    @PostMapping
+    public ResponseEntity<UploadedFileResponseDto> uploadedFile(@RequestParam("file") MultipartFile file,
+                                                                @RequestParam("lang") LanguageEnum lang) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(fileService.save(file, lang));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UploadedFileResponseDto> findFileById(@PathVariable("id") String id) {
+        return ResponseEntity.ok(fileService.findFileById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UploadedFileResponseDto>> findAllFiles() {
+        return ResponseEntity.ok(fileService.findAll());
+    }
 
 }

@@ -1,9 +1,9 @@
 package com.example.customocrservice.component.ocr;
 
-import com.example.customocrservice.component.utils.FileManager;
-import com.example.customocrservice.component.utils.PDFToImageConverter;
-import com.example.customocrservice.model.ocr.SupportedFilesEnum;
+import com.example.customocrservice.common.FileManager;
+import com.example.customocrservice.common.PDFToImageConverter;
 import com.example.customocrservice.model.ocr.Page;
+import com.example.customocrservice.model.ocr.SupportedFilesEnum;
 import lombok.RequiredArgsConstructor;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;

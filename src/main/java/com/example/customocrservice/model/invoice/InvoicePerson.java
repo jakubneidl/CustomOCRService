@@ -1,6 +1,5 @@
 package com.example.customocrservice.model.invoice;
 
-import com.example.customocrservice.model.invoice.Address;
 import lombok.Data;
 
 @Data
