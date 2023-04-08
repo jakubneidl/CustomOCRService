@@ -13,7 +13,7 @@ import java.net.URL;
 @Configuration
 public class TesseractConfig {
 
-    private static String TESSERACT_TRAINED_DATA_PATH = "src/main/resources/tessdata";
+    private static String TESSERACT_TRAINED_DATA_PATH = "/tessdata";
 
     @Bean
     public Tesseract tesseract() {
