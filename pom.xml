@@ -16,7 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
-        <org.lombok.version>1.18.24</org.lombok.version>
+        <org.lombok.version>1.18.26</org.lombok.version>
     </properties>
     <dependencies>
         <dependency>
@@ -46,12 +46,6 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ghost4j</groupId>
-            <artifactId>ghost4j</artifactId>
-            <version>1.0.1</version>
         </dependency>
 
         <dependency>
