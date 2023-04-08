@@ -1,5 +1,6 @@
 package com.example.customocrservice.common;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class FileManagerImpl implements FileManager {
 
     private static final String IMG_OUTPUT_PATH = "src/main/resources/files";
@@ -22,7 +24,7 @@ public class FileManagerImpl implements FileManager {
         try (OutputStream os = new FileOutputStream(newFile)) {
             os.write(file.getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+           log.error("Failed to save file: {}", file.getOriginalFilename());
         }
 
         return path;
