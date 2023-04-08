@@ -141,7 +141,7 @@ async function submitTemplate() {
 
 // ...
 
-    const response = await fetch('http://localhost:8080/api/v1/templates', {
+    const response = await fetch('/api/v1/templates', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ async function uploadImage() {
     formData.append('lang', 'CES');
 
     try {
-        const response = await fetch('http://localhost:8080/api/v1/files', {
+        const response = await fetch('/api/v1/files', {
             method: 'POST',
             body: formData,
         });
@@ -178,13 +178,13 @@ async function uploadImage() {
 }
 
 async function fetchTemplates() {
-    const response = await fetch('http://localhost:8080/api/v1/templates');
+    const response = await fetch('/api/v1/templates');
     const templates = await response.json();
     displayTemplates(templates);
 }
 
 async function fetchFiles() {
-    const response = await fetch('http://localhost:8080/api/v1/files');
+    const response = await fetch('/api/v1/files');
     const files = await response.json();
     displayFiles(files);
 }
@@ -217,7 +217,7 @@ function displayFiles(files) {
 
 async function processOcr(templateId, fileId) {
     try {
-        const response = await fetch(`http://localhost:8080/api/v1/ocrs?templateId=${templateId}&fileId=${fileId}`, {
+        const response = await fetch(`/api/v1/ocrs?templateId=${templateId}&fileId=${fileId}`, {
             method: 'POST'
         });
 
