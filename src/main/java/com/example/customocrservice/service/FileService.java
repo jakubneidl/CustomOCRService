@@ -28,7 +28,7 @@ public class FileService {
         UUID fileId = UUID.randomUUID();
         Path path = fileManager.saveFile(file, fileId);
 
-        UploadedFile uploadedFile = new UploadedFile(fileId, path.toFile(), lang);
+        UploadedFile uploadedFile = new UploadedFile(fileId, file.getOriginalFilename(), path.toFile(), lang);
         fileRepository.save(uploadedFile);
 
         return uploadedFileMapper.mapToDto(uploadedFile);

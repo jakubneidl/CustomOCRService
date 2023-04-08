@@ -1,12 +1,15 @@
-package com.example.customocrservice.api;
+package com.example.customocrservice.controller;
 
 import com.example.customocrservice.model.request.TemplateRequestDto;
+import com.example.customocrservice.model.response.file.UploadedFileResponseDto;
 import com.example.customocrservice.model.response.template.TemplateResponseDto;
 import com.example.customocrservice.service.TemplateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/templates")
@@ -24,5 +27,10 @@ public class TemplateController {
     @GetMapping("/{id}")
     public ResponseEntity<TemplateResponseDto> findTemplate(@PathVariable("id") String id) {
         return ResponseEntity.ok(templateService.findTemplate(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TemplateResponseDto>> findAllFiles() {
+        return ResponseEntity.ok(templateService.findAll());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.customocrservice.api;
+package com.example.customocrservice.controller;
 
 import com.example.customocrservice.model.response.ocr.OcrTemplateResponseDto;
 import com.example.customocrservice.service.OcrTemplateService;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OcrController {
 
-    private OcrTemplateService ocrTemplateService;
+    private final OcrTemplateService ocrTemplateService;
 
     @PostMapping
     public ResponseEntity<OcrTemplateResponseDto> ocrTemplate(@RequestParam("templateId") String templateId,

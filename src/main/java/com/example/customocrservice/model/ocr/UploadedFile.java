@@ -11,6 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UploadedFile {
     private UUID id;
+    private String name;
     private File file;
     private LanguageEnum lang;
 }

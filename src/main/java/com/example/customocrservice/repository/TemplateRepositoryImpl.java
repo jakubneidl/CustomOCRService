@@ -3,7 +3,9 @@ package com.example.customocrservice.repository;
 import com.example.customocrservice.domain.Template;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -21,5 +23,10 @@ public class TemplateRepositoryImpl implements TemplateRepository {
     @Override
     public Template findById(String id) {
         return templateHashMap.get(UUID.fromString(id));
+    }
+
+    @Override
+    public List<Template> findAll() {
+        return new ArrayList<>(templateHashMap.values());
     }
 }

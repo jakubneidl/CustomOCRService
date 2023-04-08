@@ -6,5 +6,6 @@ import java.util.UUID;
 
 @Data
 public class UploadedFileResponseDto {
+    private String name;
     private UUID id;
 }

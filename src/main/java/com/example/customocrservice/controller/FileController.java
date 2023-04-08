@@ -1,4 +1,4 @@
-package com.example.customocrservice.api;
+package com.example.customocrservice.controller;
 
 import com.example.customocrservice.model.ocr.LanguageEnum;
 import com.example.customocrservice.model.response.file.UploadedFileResponseDto;
