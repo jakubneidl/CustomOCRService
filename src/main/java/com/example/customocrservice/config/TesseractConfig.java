@@ -8,17 +8,23 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.net.URL;
+
 @Configuration
 public class TesseractConfig {
 
     private static String TESSERACT_TRAINED_DATA_PATH = "src/main/resources/tessdata";
 
     @Bean
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public Tesseract tesseract() {
         Tesseract tesseract = new Tesseract();
+        URL resource = getClass().getResource(TESSERACT_TRAINED_DATA_PATH);
+        if (resource != null) {
+            tesseract.setDatapath(resource.getPath());
+        } else {
+            throw new RuntimeException("Failed to find Tesseract trained data on classpath");
+        }
         tesseract.setLanguage(LanguageEnum.CES.getLangCode());
-        tesseract.setDatapath(TESSERACT_TRAINED_DATA_PATH);
         return tesseract;
     }
 }
