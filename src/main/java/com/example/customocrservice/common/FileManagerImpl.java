@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
@@ -17,17 +18,30 @@ public class FileManagerImpl implements FileManager {
 
     private static final String IMG_OUTPUT_PATH = "src/main/resources/files";
 
-    @Override
-    public Path saveFile(MultipartFile file, UUID fileId) {
-        Path path = Path.of(IMG_OUTPUT_PATH +"/"+ fileId + "-" + file.getOriginalFilename());
-        File newFile = new File(path.toString());
-        try (OutputStream os = new FileOutputStream(newFile)) {
-            os.write(file.getBytes());
+    private static final String DEFAULT_DATA_DIR = "data";
+
+    public File multipartFileToFile(MultipartFile multipartFile, String fileName) {
+        Path dataDirPath = null;
+        try {
+            dataDirPath = Files.createTempDirectory(DEFAULT_DATA_DIR);
+            log.info("Creating temp directory: {}", dataDirPath);
         } catch (IOException e) {
-           log.error("Failed to save file: {}", file.getOriginalFilename());
+            throw new RuntimeException(e);
         }
 
-        return path;
-    }
+        log.info("Temporary directory: {}", dataDirPath);
 
+
+        File convFile = new File(dataDirPath + File.separator + fileName);
+
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            fos.write(multipartFile.getBytes());
+        } catch (Exception e) {
+            log.error("Cannot save file {}", e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+
+        log.info("File converted to: {}", convFile.getAbsolutePath());
+        return convFile;
+    }
 }

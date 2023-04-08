@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,11 +24,12 @@ public class FileService {
     private final UploadedFileMapper uploadedFileMapper;
     private final FileManager fileManager;
 
-    public UploadedFileResponseDto save(MultipartFile file, LanguageEnum lang) {
+    public UploadedFileResponseDto save(MultipartFile multipartFile, LanguageEnum lang) {
         UUID fileId = UUID.randomUUID();
-        Path path = fileManager.saveFile(file, fileId);
 
-        UploadedFile uploadedFile = new UploadedFile(fileId, file.getOriginalFilename(), path.toFile(), lang);
+        File file = fileManager.multipartFileToFile(multipartFile, fileId + multipartFile.getOriginalFilename());
+
+        UploadedFile uploadedFile = new UploadedFile(fileId, multipartFile.getOriginalFilename(), file, lang);
         fileRepository.save(uploadedFile);
 
         return uploadedFileMapper.mapToDto(uploadedFile);
