@@ -27,12 +27,7 @@ public class TesseractConfig {
     @Bean
     public Tesseract tesseract() {
         Tesseract tesseract = new Tesseract();
-
-        Resource tessDataResource = new ClassPathResource("tessdata");
-        Path tempTessDataFolder = Files.createTempDirectory("tessdata");
-        FileCopyUtils.copy(tessDataResource.getFile(), tempTessDataFolder.toFile());
-
-        tesseract.setDatapath(tempTessDataFolder.toString());
+        tesseract.setDatapath("resources/tessdata");
         tesseract.setLanguage("eng");
         return tesseract;
     }
