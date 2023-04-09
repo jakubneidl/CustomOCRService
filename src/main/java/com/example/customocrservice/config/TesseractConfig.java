@@ -35,9 +35,6 @@ public class TesseractConfig {
         // Set the datapath and language options for Tesseract
 
         tesseract.setLanguage("ces");
-        tesseract.setOcrEngineMode(1);
-
         return tesseract;
-
     }
 }
