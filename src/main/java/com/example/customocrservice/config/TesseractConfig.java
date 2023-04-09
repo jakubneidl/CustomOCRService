@@ -2,29 +2,29 @@ package com.example.customocrservice.config;
 
 import com.example.customocrservice.model.ocr.LanguageEnum;
 import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Paths;
 
 @Configuration
 public class TesseractConfig {
 
-    private static String TESSERACT_TRAINED_DATA_PATH = "/tessdata";
 
     @Bean
-    public Tesseract tesseract() {
+    public Tesseract tesseract() throws IOException {
         Tesseract tesseract = new Tesseract();
-        URL resource = getClass().getResource(TESSERACT_TRAINED_DATA_PATH);
-        if (resource != null) {
-            tesseract.setDatapath(resource.getPath());
-        } else {
-            throw new RuntimeException("Failed to find Tesseract trained data on classpath");
-        }
-        tesseract.setLanguage(LanguageEnum.CES.getLangCode());
+        tesseract.setDatapath(new ClassPathResource("tessdata").getFile().getAbsolutePath());
+        tesseract.setLanguage("ces");
+        tesseract.setOcrEngineMode(1);
         return tesseract;
     }
 }
