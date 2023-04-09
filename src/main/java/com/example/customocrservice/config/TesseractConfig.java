@@ -27,8 +27,7 @@ public class TesseractConfig {
     @Bean
     public Tesseract tesseract() {
         Tesseract tesseract = new Tesseract();
-        tesseract.setDatapath("resources/tessdata");
-        tesseract.setLanguage("eng");
+        tesseract.setLanguage("ces");
         return tesseract;
     }
 }
