@@ -1,8 +1,8 @@
 package com.example.customocrservice.service;
 
-import com.example.customocrservice.model.Pair;
 import com.example.customocrservice.domain.Template;
 import com.example.customocrservice.domain.TextLocation;
+import com.example.customocrservice.model.Pair;
 import com.example.customocrservice.model.ocr.UploadedFile;
 import com.example.customocrservice.model.response.ocr.OcrFieldDto;
 import com.example.customocrservice.model.response.ocr.OcrTemplateResponseDto;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,10 +40,13 @@ public class OcrTemplateService {
         List<Pair<String, String>> fieldValuePairs = fieldLocationPairs.stream()
                 .map(fieldLocation -> getFieldValuePair(uploadedFile, fieldLocation)).collect(Collectors.toList());
 
-        List<OcrFieldDto> results = fieldValuePairs.stream().map(this::mapToDto).collect(Collectors.toList());
+        List<OcrFieldDto> pairResults = fieldValuePairs.stream().map(this::mapToDto).collect(Collectors.toList());
+
+        Map<String, String> resultMap = pairResults.stream().collect(Collectors.toMap(OcrFieldDto::getFieldName, OcrFieldDto::getFieldValue));
 
         OcrTemplateResponseDto ocrTemplateResponseDto = new OcrTemplateResponseDto();
-        ocrTemplateResponseDto.setResult(results);
+        ocrTemplateResponseDto.setResult(pairResults);
+        ocrTemplateResponseDto.setOcrResult(resultMap);
         return ocrTemplateResponseDto;
     }
 
@@ -50,11 +54,15 @@ public class OcrTemplateService {
                                                    Pair<String, Rectangle> fieldLocation) {
         String fieldValue = null;
         try {
-            fieldValue = tesseract.doOCR(uploadedFile.getFile(), fieldLocation.getSecond());
+            fieldValue = fixNewLines(tesseract.doOCR(uploadedFile.getFile(), fieldLocation.getSecond()));
         } catch (TesseractException e) {
             throw new RuntimeException(e);
         }
         return Pair.of(fieldLocation.getFirst(), fieldValue);
+    }
+
+    private String fixNewLines(String ocrString) {
+        return ocrString.replace("\n", "");
     }
 
     private OcrFieldDto mapToDto(Pair<String, String> fieldValuePair) {

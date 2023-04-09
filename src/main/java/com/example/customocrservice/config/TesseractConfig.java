@@ -21,9 +21,24 @@ public class TesseractConfig {
     @Bean
     public Tesseract tesseract() throws IOException {
         Tesseract tesseract = new Tesseract();
-        tesseract.setDatapath(new ClassPathResource("tessdata").getURI().getPath());
+
+        // Get the path to the tessdata directory
+        ClassPathResource tessDataResource = new ClassPathResource("tessdata");
+        String tessDataPath = tessDataResource.getURI().toString();
+
+        // Adjust the path format if running on Windows
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            tessDataPath = tessDataPath.substring(6);
+        } else {
+            tessDataPath = Paths.get(tessDataPath).toString();
+        }
+
+        // Set the datapath and language options for Tesseract
+        tesseract.setDatapath(tessDataPath);
         tesseract.setLanguage("ces");
         tesseract.setOcrEngineMode(1);
+
         return tesseract;
+
     }
 }

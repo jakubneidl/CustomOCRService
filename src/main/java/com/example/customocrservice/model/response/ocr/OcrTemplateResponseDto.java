@@ -3,8 +3,10 @@ package com.example.customocrservice.model.response.ocr;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class OcrTemplateResponseDto {
-    List<OcrFieldDto> result;
+    private List<OcrFieldDto> result;
+    private Map<String, String> ocrResult;
 }
