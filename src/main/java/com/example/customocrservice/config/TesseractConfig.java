@@ -13,6 +13,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -24,10 +25,19 @@ public class TesseractConfig {
     private static String TESSERACT_TRAINED_DATA_PATH = "tessdata";
 
     @Bean
-    public Tesseract tesseract() {
+    public Tesseract tesseract() throws IOException, URISyntaxException {
         Tesseract tesseract = new Tesseract();
         tesseract.setLanguage("ces");
-        tesseract.setDatapath("src/main/resources/tessdata");
+
+        // Load tessdata folder from classpath
+        URL tessDataURL = getClass().getClassLoader().getResource(TESSERACT_TRAINED_DATA_PATH);
+        if (tessDataURL != null) {
+            File tessDataFolder = new File(tessDataURL.toURI());
+            tesseract.setDatapath(tessDataFolder.getParent());
+        } else {
+            throw new IOException("Unable to find tessdata folder in classpath");
+        }
+
         return tesseract;
     }
 }
