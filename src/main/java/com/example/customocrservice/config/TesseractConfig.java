@@ -18,11 +18,10 @@ import java.nio.file.Paths;
 @Configuration
 public class TesseractConfig {
 
-
     @Bean
     public Tesseract tesseract() throws IOException {
         Tesseract tesseract = new Tesseract();
-        tesseract.setDatapath(new ClassPathResource("tessdata").getFile().getAbsolutePath());
+        tesseract.setDatapath(new ClassPathResource("tessdata").getURI().getPath());
         tesseract.setLanguage("ces");
         tesseract.setOcrEngineMode(1);
         return tesseract;
