@@ -29,12 +29,11 @@ public class TesseractConfig {
         // Adjust the path format if running on Windows
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             tessDataPath = tessDataPath.substring(6);
-        } else {
-            tessDataPath = Paths.get(tessDataPath).toString();
+            tesseract.setDatapath(tessDataPath);
         }
 
         // Set the datapath and language options for Tesseract
-        tesseract.setDatapath(tessDataPath);
+
         tesseract.setLanguage("ces");
         tesseract.setOcrEngineMode(1);
 
