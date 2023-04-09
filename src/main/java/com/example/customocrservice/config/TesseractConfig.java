@@ -23,11 +23,11 @@ public class TesseractConfig {
 
     private static String TESSERACT_TRAINED_DATA_PATH = "tessdata";
 
-    @SneakyThrows
     @Bean
     public Tesseract tesseract() {
         Tesseract tesseract = new Tesseract();
         tesseract.setLanguage("ces");
+        tesseract.setDatapath("src/main/resources/tessdata");
         return tesseract;
     }
 }
