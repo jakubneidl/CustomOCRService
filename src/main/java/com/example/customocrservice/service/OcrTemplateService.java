@@ -34,11 +34,12 @@ public class OcrTemplateService {
         List<Pair<String, Rectangle>> fieldLocationPairs = template
                 .getTextLocations()
                 .stream()
-                .map(textLocation -> Pair.of(textLocation.getName(), toRectangle(textLocation))).collect(Collectors.toList());
+                .map(textLocation -> Pair.of(textLocation.getName(), toRectangle(textLocation)))
+                .toList();
 
 
         List<Pair<String, String>> fieldValuePairs = fieldLocationPairs.stream()
-                .map(fieldLocation -> getFieldValuePair(uploadedFile, fieldLocation)).collect(Collectors.toList());
+                .map(fieldLocation -> getFieldValuePair(uploadedFile, fieldLocation)).toList();
 
         List<OcrFieldDto> pairResults = fieldValuePairs.stream().map(this::mapToDto).collect(Collectors.toList());
 
